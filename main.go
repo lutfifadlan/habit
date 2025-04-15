@@ -68,8 +68,8 @@ func main() {
 		return c.SendString("OK")
 	})
 
-	appLogger.Info("Server starting on :3000")
-	if err := app.Listen(":3000"); err != nil {
+	appLogger.Info("Server starting on :8080")
+	if err := app.Listen(":8080"); err != nil {
 		appLogger.Error("Server failed to start: %v", err)
 		os.Exit(1)
 	}
