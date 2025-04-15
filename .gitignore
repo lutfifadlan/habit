@@ -1,0 +1,11 @@
+*.env
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Data directory
+/data/
+# Temporary files
+tmp/

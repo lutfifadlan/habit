@@ -1,0 +1,1 @@
+- Run app with hot reload: `air`
