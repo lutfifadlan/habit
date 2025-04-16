@@ -1,3 +1,3 @@
 [phases.setup]
-nixLibs = ["...", "gcc-unwrapped"] # Install the gcc-unwrapped package from Nix and add it to the LD_LIBRARY_PATH
-aptPkgs = ["...", "wget"]   # Install the wget package with apt-get
+nixLibs = ["...", "gccgo-wrapper"]
+aptPkgs = ["...", "gccgo-wrapper"]
