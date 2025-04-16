@@ -17,7 +17,7 @@ func main() {
 	appLogger := logger.New()
 	appLogger.Info("Starting habit tracker service")
 
-	db, err := sql.Open("sqlite3", "./habits.db?_foreign_keys=on")
+	db, err := sql.Open("sqlite3", "./habits.db")
 	if err != nil {
 		appLogger.Error("Failed to initialize database: %v", err)
 		os.Exit(1)
