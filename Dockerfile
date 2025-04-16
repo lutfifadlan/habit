@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build the application binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main .
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o main .
 
 # Now create a small image for the application using Alpine Linux
 FROM alpine:3.18
@@ -24,9 +24,6 @@ WORKDIR /app
 
 # Copy the binary from the builder image
 COPY --from=builder /app/main .
-
-# Copy the embedded migration SQL files
-COPY --from=builder /app/migrations/sql ./migrations/sql
 
 # Expose the application port
 EXPOSE 8080
