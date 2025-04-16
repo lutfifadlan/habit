@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/lutfifadlan/habit/internal/models"
@@ -20,15 +21,19 @@ func NewHabitHandler(repo *repository.Repository, logger *logger.Logger) *HabitH
 
 func (h *HabitHandler) Create(c fiber.Ctx) error {
 	var request models.CreateHabitRequest
-	if err := c.Bind().Body(request); err != nil {
+	if err := c.Bind().Body(&request); err != nil {
+		h.logger.Error("Failed to bind request body: error=%v", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Invalid request body",
 		})
 	}
 
+	currentTime := time.Now()
 	habit := models.Habit{
-		UserID: request.UserID,
-		Habit:  request.Habit,
+		UserID:    request.UserID,
+		Habit:     request.Habit,
+		CreatedAt: currentTime,
+		UpdatedAt: currentTime,
 	}
 
 	if err := h.repo.CreateHabit(&habit); err != nil {
@@ -44,7 +49,7 @@ func (h *HabitHandler) GetByUserId(c fiber.Ctx) error {
 	userIDStr := c.Params("user_id")
 	userID, err := strconv.Atoi(userIDStr)
 	if err != nil || userID <= 0 {
-		h.logger.Error("Invalid userID parameter", "input", userIDStr, "error", err)
+		h.logger.Error("Invalid userID parameter: input=%s, error=%v", userIDStr, err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "User ID must be a positive integer",
 		})
@@ -52,7 +57,7 @@ func (h *HabitHandler) GetByUserId(c fiber.Ctx) error {
 
 	habits, err := h.repo.GetHabitsByUserId(userID)
 	if err != nil {
-		h.logger.Error("Failed to get habits", "user_id", userID, "error", err)
+		h.logger.Error("Failed to get habits: user_id=%s, error=%v", userIDStr, err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Failed to retrieve habits",
 		})

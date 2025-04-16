@@ -24,7 +24,7 @@ func (r *Repository) CreateHabit(habit *models.Habit) error {
 
 func (r *Repository) GetHabitsByUserId(userID int) ([]*models.Habit, error) {
 	const query = `
-		SELECT id, user_id, name, completion_dates, created_at, updated_at
+		SELECT id, user_id, habit, completion_dates, created_at, updated_at
 		FROM habits
 		WHERE user_id = ?
 		ORDER BY created_at DESC

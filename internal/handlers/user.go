@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"time"
+
 	"github.com/gofiber/fiber/v3"
 	"github.com/lutfifadlan/habit/internal/models"
 	"github.com/lutfifadlan/habit/internal/repository"
@@ -22,8 +24,11 @@ func (u *UserHandler) Create(c fiber.Ctx) error {
 		})
 	}
 
+	currentTime := time.Now()
 	user := models.User{
-		UserName: request.UserName,
+		UserName:  request.UserName,
+		CreatedAt: currentTime,
+		UpdatedAt: currentTime,
 	}
 
 	if err := u.repo.CreateUser(&user); err != nil {
