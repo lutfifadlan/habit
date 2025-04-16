@@ -68,6 +68,10 @@ func main() {
 		return c.SendString("OK")
 	})
 
+	app.Get("/", func(c fiber.Ctx) error {
+		return c.SendString("OK")
+	})
+
 	appLogger.Info("Server starting on :8080")
 	if err := app.Listen(":8080"); err != nil {
 		appLogger.Error("Server failed to start: %v", err)
